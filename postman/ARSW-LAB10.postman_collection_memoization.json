@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "77d8eafd-df82-4c14-a8d9-9163a83996f3",
+		"name": "ARSW-LAB10",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50207140",
+		"_collection_link": "https://lanapequin-9422873.postman.co/workspace/2d4a9c10-f89f-4447-80df-55a5aee5a233/collection/50207140-77d8eafd-df82-4c14-a8d9-9163a83996f3?action=share&source=collection_link&creator=50207140"
+	},
+	"item": [
+		{
+			"name": "10-CC-Memoization",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nth\": 1000000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "functionprojectfibonaccimemorization-bpdfc7bweccye5dt.eastus2-01.azurewebsites.net",
+					"host": [
+						"functionprojectfibonaccimemorization-bpdfc7bweccye5dt",
+						"eastus2-01",
+						"azurewebsites",
+						"net"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

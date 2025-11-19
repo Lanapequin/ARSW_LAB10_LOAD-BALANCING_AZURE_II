@@ -11,7 +11,7 @@
 				"npm install"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/FunctionProject"
+				"cwd": "${workspaceFolder}"
 			}
 		},
 		{
@@ -19,7 +19,7 @@
 			"label": "npm install",
 			"command": "npm install",
 			"options": {
-				"cwd": "${workspaceFolder}/FunctionProject"
+				"cwd": "${workspaceFolder}"
 			}
 		},
 		{
@@ -29,7 +29,7 @@
 			"dependsOn": "func: extensions install",
 			"problemMatcher": [],
 			"options": {
-				"cwd": "${workspaceFolder}/FunctionProject"
+				"cwd": "${workspaceFolder}"
 			}
 		}
 	]
