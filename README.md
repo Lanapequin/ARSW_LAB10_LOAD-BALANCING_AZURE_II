@@ -202,21 +202,21 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 
 8. **Informe**
 
-   ##### Resultados Obtenidos
+   #### Resultados Obtenidos
 
-   ##### Escenario 1: Sin Memoización
+   #### Escenario 1: Sin Memoización
 
    - Duración total: 3.3 segundos
 
    Análisis: En este escenario, cada petición calculó la serie de Fibonacci de manera independiente desde cero, lo que resultó en un incremento significativo del tiempo de procesamiento debido a la ausencia de reutilización de cálculos previos.
 
-   ##### Escenario 2: Con Memoización
+   #### Escenario 2: Con Memoización
 
    - Duración total: 676 milisegundos
 
    Análisis: La implementación de memoización permitió reutilizar los resultados previamente calculados y almacenados en caché, reduciendo drásticamente el tiempo de respuesta incluso bajo múltiples peticiones concurrentes.
 
-   ##### Comparativa de Rendimiento
+   #### Comparativa de Rendimiento
 
    | Métrica | Sin Memoización | Con Memoización |
    |---------|-----------------|-----------------|
