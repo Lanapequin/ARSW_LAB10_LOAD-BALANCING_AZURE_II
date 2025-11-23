@@ -47,6 +47,112 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 
 6. Cree una nueva Function que resuleva el problema de Fibonacci pero esta vez utilice un enfoque recursivo con memoization. Pruebe la función varias veces, después no haga nada por al menos 5 minutos. Pruebe la función de nuevo con los valores anteriores. ¿Cuál es el comportamiento?.
 
+### Desarrollo Escalabilidad Serverless (Functions)
+
+1. **Creación del Function App**
+
+   - **Subscription**: Azure for Students
+   - **Resource Group**: SCALABILITY_LAB_II
+   - **Function App name**: FunctionProjectFibonaccii
+   - **Runtime stack**: Node.js
+   - **Version**: 22 LTS
+   - **Region**: East US 2
+
+   ![Picture2.png](images/lab10/Picture2.png)
+
+2. **Instalación de Azure Functions Extension**
+   
+   Para facilitar el desarrollo y despliegue, instalamos la extensión oficial de Azure Functions en Visual Studio Code.
+
+   ![Picture3.png](images/lab10/Picture3.png)
+
+   Ademas, se ejecuto 
+      ```bash
+      npm i -g azure-functions-core-tools@4
+      ```
+   Con el fin de instalar de forma global las Azure Functions Core Tools en su versión 4, que son las herramientas necesarias para crear, ejecutar, probar y publicar funciones de Azure desde el computador.
+   
+3. **Despliegue de la Function de Fibonacci a Azure**
+
+   Una vez configurado el entorno de desarrollo, procedimos a desplegar la función de Fibonacci a Azure directamente desde Visual Studio Code.
+
+   ![Picture5.png](images/lab10/Picture5.png)
+
+   ![Picture6.png](images/lab10/Picture6.png)
+
+4. **Prueba desde el Portal de Azure**
+
+   Después del despliegue exitoso, verificamos el funcionamiento de la función directamente desde el portal de Azure.
+
+   ```json
+   {
+       "nth": 1000000
+   }
+   ```
+   
+   ![Picture7.png](images/lab10/Picture7.png)
+   
+5. **Pruebas de Concurrencia con Newman**
+
+   Realizamos pruebas de carga ejecutando 10 peticiones concurrentes a la función de Fibonacci para evaluar el comportamiento del sistema bajo estrés.
+
+   Ejecutamos 10 instancias de Newman en paralelo usando el operador `&` en Command Prompt, cada una generando su propio reporte HTML:
+
+   ```bash
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-1.html &
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-2.html &
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-3.html &
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-4.html &
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-5.html &
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-6.html &
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-7.html &
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-8.html &
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-9.html &
+   newman run ARSW-LAB10.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/report-10.html
+   ```
+   
+   ![Picture11.png](images/lab10/Picture11.png)
+
+   ![Picture12.png](images/lab10/Picture12.png)
+
+   Análisis:
+
+   - La mayoría de las peticiones fueron exitosas, lo que indica que el servicio soporta la carga concurrente.
+   - El tiempo de respuesta promedio se mantuvo estable en la mayoría de los casos, salvo una ejecución con 3.3 s, posiblemente por latencia en el servidor.
+
+6. **Function con Memoization**
+
+   Creamos una segunda función que implementa el cálculo de Fibonacci con memoization para optimizar el rendimiento.
+   
+   ![Picture10.png](images/lab10/Picture10.png)
+
+   ![Picture13.png](images/lab10/Picture13.png)
+   
+   Codigo ejecutado:
+
+   ```bash
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-1.html &
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-2.html &
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-3.html &
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-4.html &
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-5.html &
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-6.html &
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-7.html &
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-8.html &
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-9.html &
+   newman run ARSW-LAB10.postman_collection_memoization.json --reporters cli,htmlextra --reporter-htmlextra-export reports-memoization/report-10.html
+   ```
+   
+   Antes de los 5 minutos:
+
+   ![Picture14.png](images/lab10/Picture14.png)
+
+   Despues de los 5 minutos:
+
+   ![Picture15.png](images/lab10/Picture15.png)
+
+   El comportamiento observado se debe a que la función recursiva con memoization almacena los resultados calculados en memoria, evitando recalcular valores ya obtenidos. En la primera ejecución, el tiempo fue mayor porque se construyó el caché; después de esperar 5 minutos, el caché permaneció activo, por lo que la segunda ejecución fue más rápida al reutilizar los resultados almacenados. Esto explica la reducción en el tiempo promedio de respuesta entre las dos pruebas.
+
 **Preguntas**
 
 1. ¿Qué es un Azure Function?
@@ -94,7 +200,31 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 
    Adicionalmente, debe considerarse que la cuenta de almacenamiento es un recurso independiente que se factura por separado. En muchos planes, el almacenamiento utilizado por la Function App no está cubierto por cuotas gratuitas.
 
-8. Informe
+8. **Informe**
+
+   ##### Resultados Obtenidos
+
+   ##### Escenario 1: Sin Memoización
+
+   - **Duración total:** 3.3 segundos
+
+   **Análisis:** En este escenario, cada petición calculó la serie de Fibonacci de manera independiente desde cero, lo que resultó en un incremento significativo del tiempo de procesamiento debido a la ausencia de reutilización de cálculos previos.
+
+   ##### Escenario 2: Con Memoización
+
+   - **Duración total:** 676 milisegundos
+
+   **Análisis:** La implementación de memoización permitió reutilizar los resultados previamente calculados y almacenados en caché, reduciendo drásticamente el tiempo de respuesta incluso bajo múltiples peticiones concurrentes.
+
+   ##### Comparativa de Rendimiento
+
+   | Métrica | Sin Memoización | Con Memoización |
+   |---------|-----------------|-----------------|
+   | Duración total | 3.3 s | 676 ms |
+
+   Los resultados demuestran que la memoización mejora significativamente el rendimiento del sistema bajo carga concurrente. Al evitar cálculos repetitivos y aprovechar la caché en memoria, se logró reducir el tiempo de respuesta de **3.2 segundos a 660 milisegundos**.
+   Esta optimización resulta especialmente valiosa en escenarios de alta concurrencia, donde múltiples usuarios realizan peticiones simultáneas que requieren cálculos complejos.
+   
 
 **Bibliografias**
 
